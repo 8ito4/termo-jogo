@@ -956,20 +956,28 @@
             }
 
             removeLetter() {
-    if (this.gameOver || this.currentRow >= this.maxAttempts) return;
+                if (this.gameOver || this.currentRow >= this.maxAttempts) return;
 
-    // Apaga a letra da posição atual
-    this.currentGuess[this.currentCol] = '';
+                const currentChar = this.currentGuess[this.currentCol];
 
-    const box = document.getElementById(`box-${this.currentRow}-${this.currentCol}`);
-    if (box) {
-        box.textContent = '';
-        box.classList.remove('filled');
-    }
+                if (currentChar) {
+                    // Se o campo atual tem letra, apenas apaga e mantém o cursor
+                    this.currentGuess[this.currentCol] = '';
+                } else if (this.currentCol > 0) {
+                    // Se está vazio, volta uma casa e apaga ali
+                    this.currentCol--;
+                    this.currentGuess[this.currentCol] = '';
+                }
 
-    // NÃO MOVE o cursor automaticamente
-    this.updateActiveBox();
-}
+                // Atualiza visual
+                const box = document.getElementById(`box-${this.currentRow}-${this.currentCol}`);
+                if (box) {
+                    box.textContent = '';
+                    box.classList.remove('filled');
+                }
+
+                this.updateActiveBox();
+            }
 
 
             submitGuess() {
