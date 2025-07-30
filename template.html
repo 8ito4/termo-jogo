@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHAVE - Imersão Bee Delivery 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #121212;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .company-logo {
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #FFD600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .slogan {
+            color: #cccccc;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #FFD600;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .help-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #1a1a1a;
+            border: 2px solid #FFD600;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: #FFD600;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .help-button:hover {
+            background: #FFD600;
+            color: #121212;
+            transform: scale(1.1);
+        }
+
+        .game-container {
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-rows: repeat(6, 1fr);
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .word-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .letter-box {
+            width: 70px;
+            height: 70px;
+            border: 2px solid #353535;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.6rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: #121212;
+            color: #ffffff;
+            transition: all 0.2s;
+            border-radius: 3px;
+            cursor: pointer;
+            box-sizing: border-box;
+            border-bottom-width: 2px;
+        }
+        .letter-box.active {
+            border-bottom: 8px solid #FFD600 !important;
+            border-top: 2px solid #FFD600 !important;
+            border-left: 2px solid #FFD600 !important;
+            border-right: 2px solid #FFD600 !important;
+            color: #fff;
+            background: #181818;
+            z-index: 2;
+        }
+
+        .letter-box.filled {
+            border-color: #565758;
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .letter-box.correct {
+            background: #6aaa64 !important;
+            color: white !important;
+            border-color: #6aaa64 !important;
+        }
+
+        .letter-box.present {
+            background: #c9b458 !important;
+            color: white !important;
+            border-color: #c9b458 !important;
+        }
+
+        .letter-box.absent {
+            background: #787c7e !important;
+            color: white !important;
+            border-color: #787c7e !important;
+        }
+
+        .word-row.locked .letter-box {
+            background: #2c2c2c;
+            border-color: #353535;
+            color: #888;
+            cursor: default;
+        }
+        .word-row.active .letter-box {
+            background: #121212;
+            border: 2px solid #FFD600;
+            color: #fff;
+        }
+
+        .keyboard {
+            max-width: 500px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .key {
+            background: #818384;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            height: 38px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            user-select: none;
+        }
+
+        .key.letter {
+            width: 43px;
+        }
+
+        .key.wide {
+            width: 65px;
+            font-size: 0.8rem;
+        }
+
+        .key:hover {
+            background: #9a9b9c;
+        }
+
+        .key.correct {
+            background: #6aaa64;
+        }
+
+        .key.present {
+            background: #c9b458;
+        }
+
+        .key.absent {
+            background: #3a3a3c;
+            color: #878787;
+        }
+
+        .key:active {
+            transform: scale(0.95);
+        }
+
+        .message {
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            font-size: 1.1rem;
+            min-height: 30px;
+        }
+
+        .error {
+            color: #f85149;
+        }
+
+        .success {
+            color: #FFD600;
+            font-size: 1.5rem;
+        }
+
+        .defeat {
+            color: #f85149;
+            font-size: 1.3rem;
+        }
+
+        .game-over {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .restart-btn {
+            padding: 12px 24px;
+            font-size: 1rem;
+            background: #FFD600;
+            color: #121212;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s ease;
+            font-weight: bold;
+        }
+
+        .restart-btn:hover {
+            background: #FFC107;
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: #1a1a1a;
+            border: 2px solid #FFD600;
+            border-radius: 12px;
+            padding: 0;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(.9);
+        }
+
+        .modal-scroll {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 18px;
+        }
+
+        /* Scrollbar estilizada aplicada ao modal-scroll */
+        .modal-scroll::-webkit-scrollbar {
+            width: 10px;
+        }
+        .modal-scroll::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        .modal-scroll::-webkit-scrollbar-thumb {
+            background-color: #FFD600;
+            border-radius: 10px;
+            border: 2px solid #1a1a1a;
+        }
+        .modal-scroll::-webkit-scrollbar-thumb:hover {
+            background-color: #FFC107;
+        }
+
+        /* Firefox */
+        .modal-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #44402f #1a1a1a;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal h3 {
+            color: #FFD600;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            color: #FFD600;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: #FFC107;
+        }
+
+        .modal p {
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: #cccccc;
+        }
+
+        .legend-box {
+            width: 25px;
+            height: 25px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .modal-examples {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #3a3a3c;
+        }
+
+        .example-word {
+            display: flex;
+            gap: 5px;
+            margin: 15px 0;
+            justify-content: flex-start;
+        }
+
+        .example-box {
+            width: 35px;
+            height: 35px;
+            border: 2px solid #3a3a3c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 3px;
+            color: white;
+        }
+
+        .example-box.correct {
+            background: #6aaa64;
+            border-color: #6aaa64;
+        }
+
+        .example-box.present {
+            background: #c9b458;
+            border-color: #c9b458;
+        }
+
+        .example-box.absent {
+            background: #787c7e;
+            border-color: #787c7e;
+        }
+
+        .example-box.normal {
+            background: #121212;
+            border-color: #565758;
+        }
+
+        .navbar {
+            width: 100%;
+            min-height: 56px;
+            background: #181818;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #333;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2000;
+        }
+        .navbar-content {
+            width: 100%;
+            max-width: 720px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-sizing: border-box;
+        }
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+        .navbar-logo {
+            height: 40px;
+            width: auto;
+        }
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .navbar-btn {
+            background: #232323;
+            color: #FFD600;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-btn:hover {
+            background: #FFD600;
+            color: #181818;
+        }
+        .main-content {
+            margin-top: 70px;
+        }
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 0 8px;
+            }
+            .navbar-logo {
+                height: 32px;
+            }
+            .navbar-btn {
+                padding: 6px 10px;
+                font-size: 1rem;
+            }
+            .main-content {
+                margin-top: 60px;
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+            .game-container {
+                max-width: 100%;
+                padding-left: 4px;
+                padding-right: 4px;
+            }
+            .game-board {
+                gap: 3px;
+                justify-content: center;
+            }
+            .word-row {
+                gap: 3px;
+                justify-content: center;
+            }
+            .letter-box {
+                width: 52px;
+                height: 52px;
+                font-size: 2.2rem;
+            }
+            .keyboard {
+                max-width: 100%;
+                margin: 10px 0;
+            }
+            .key.letter {
+                width: 28px;
+                height: 38px;
+                font-size: 0.9rem;
+            }
+            .key.wide {
+                width: 45px;
+                font-size: 0.8rem;
+            }
+        }
+        @media (max-width: 800px) {
+            .navbar-content {
+                max-width: 100vw;
+                padding: 0 8px;
+            }
+        }
+        /* Input invisível para mobile */
+        #mobileInput {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        /* Garante que .correct, .present, .absent prevaleçam sobre .word-row.active .letter-box */
+        .word-row.active .letter-box.correct,
+        .word-row.active .letter-box.present,
+        .word-row.active .letter-box.absent {
+            background: inherit;
+            color: inherit;
+            border-color: inherit;
+        }
+
+        /* Estiliza a barra de rolagem APENAS dentro do modal */
+.modal::-webkit-scrollbar {
+    width: 10px;
+}
+
+.modal::-webkit-scrollbar-track {
+    background: transparent; /* cor de fundo do track */
+    border-radius: 20px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background-color: #4d4b42; /* cor da barra de rolagem */
+    border-radius: 20px;
+    border: 2px solid #1a1a1a; /* espaçamento dentro da barra */
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+    background-color: #625f53;
+}
+
+
+/* Compatibilidade para Firefox */
+.modal {
+    scrollbar-width: thin;
+    scrollbar-color: #4d4b42 #1a1a1a;
+}
+
+        /* Modal texto menor */
+        .modal p, .modal .legend-item, .modal .modal-examples, .modal h3 {
+            font-size: 0.85rem;
+        }
+        .modal h3 {
+            font-size: 1rem;
+        }
+        .modal {
+            padding: 8px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        .modal p {
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+        .legend-item {
+            font-size: 0.85rem;
+            gap: 8px;
+        }
+        .example-box {
+            width: 30px;
+            height: 30px;
+            font-size: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-left">
+                <img src="https://i.imgur.com/xxb6Qk4.png" alt="Logo" class="navbar-logo" />
+            </div>
+            <div class="navbar-right">
+                <button class="navbar-btn" id="infoBtn" title="Como jogar">❓</button>
+                <button class="navbar-btn" id="statsBtn" title="Ranking">📊</button>
+                <button class="navbar-btn" id="loginBtn"><span id="loginText">faça login para jogar</span></button>
+            </div>
+        </div>
+    </nav>
+    <div class="main-content">
+        <input id="mobileInput" type="text" maxlength="1" autocomplete="off" autocapitalize="characters" />
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo">🔑 CHAVE</div>
+            </div>
+        </div>
+
+    <!-- Modal de Instruções -->
+    <div class="modal-overlay" id="instructionsModal">
+        <div class="modal">
+            <div class="modal-scroll">
+                <div class="modal-header">
+                    <h3>Como Jogar</h3>
+                    <button class="close-button" id="closeModal">&times;</button>
+                </div>
+                <p>Descubra a palavra secreta de 5 letras em até 6 tentativas!</p>
+                <p>Depois de cada tentativa, as peças mostram o quão perto você está da solução.</p>
+                
+                <div class="modal-examples">
+                    <p><strong>Exemplos:</strong></p>
+                    
+                    <div class="example-word">
+                        <div class="example-box correct">T</div>
+                        <div class="example-box normal">U</div>
+                        <div class="example-box normal">R</div>
+                        <div class="example-box normal">M</div>
+                        <div class="example-box normal">A</div>
+                    </div>
+                    <p>A letra <strong>T</strong> faz parte da palavra e está na posição correta.</p>
+                    
+                    <div class="example-word">
+                        <div class="example-box normal">V</div>
+                        <div class="example-box normal">I</div>
+                        <div class="example-box present">O</div>
+                        <div class="example-box normal">L</div>
+                        <div class="example-box normal">A</div>
+                    </div>
+                    <p>A letra <strong>O</strong> faz parte da palavra mas em outra posição.</p>
+                    
+                    <div class="example-word">
+                        <div class="example-box normal">P</div>
+                        <div class="example-box normal">U</div>
+                        <div class="example-box normal">L</div>
+                        <div class="example-box absent">G</div>
+                        <div class="example-box normal">A</div>
+                    </div>
+                    <p>A letra <strong>G</strong> não faz parte da palavra.</p>
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #6aaa64;"></div>
+                        <span>Letra correta e posição certa</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #c9b458;"></div>
+                        <span>Letra correta, posição errada</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background: #787c7e;"></div>
+                        <span>Letra não está na palavra</span>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 20px;"><strong>Os acentos são preenchidos automaticamente, e não são considerados nas dicas.</strong></p>
+                <p><strong>As palavras podem possuir letras repetidas.</strong></p>
+                <p><strong>Uma palavra nova aparece a cada dia.</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-container">
+        <div class="game-board" id="gameBoard">
+        </div>
+        
+        <div class="keyboard" id="keyboard">
+    <div class="keyboard-row">
+        <button class="key letter" data-key="Q">Q</button>
+        <button class="key letter" data-key="W">W</button>
+        <button class="key letter" data-key="E">E</button>
+        <button class="key letter" data-key="R">R</button>
+        <button class="key letter" data-key="T">T</button>
+        <button class="key letter" data-key="Y">Y</button>
+        <button class="key letter" data-key="U">U</button>
+        <button class="key letter" data-key="I">I</button>
+        <button class="key letter" data-key="O">O</button>
+        <button class="key letter" data-key="P">P</button>
+    </div>
+    <div class="keyboard-row">
+        <button class="key letter" data-key="A">A</button>
+        <button class="key letter" data-key="S">S</button>
+        <button class="key letter" data-key="D">D</button>
+        <button class="key letter" data-key="F">F</button>
+        <button class="key letter" data-key="G">G</button>
+        <button class="key letter" data-key="H">H</button>
+        <button class="key letter" data-key="J">J</button>
+        <button class="key letter" data-key="K">K</button>
+        <button class="key letter" data-key="L">L</button>
+    </div>
+    <div class="keyboard-row">
+        <button class="key wide" id="enterKey">ENTER</button>
+        <button class="key letter" data-key="Z">Z</button>
+        <button class="key letter" data-key="X">X</button>
+        <button class="key letter" data-key="C">C</button>
+        <button class="key letter" data-key="V">V</button>
+        <button class="key letter" data-key="B">B</button>
+        <button class="key letter" data-key="N">N</button>
+        <button class="key letter" data-key="M">M</button>
+        <button class="key wide" id="backspaceKey">⌫</button>
+    </div>
+</div>
+
+        
+        <div id="message" class="message"></div>
+        
+        <div id="gameOver" class="game-over" style="display: none;">
+            <button id="restartBtn" class="restart-btn">JOGAR NOVAMENTE</button>
+        </div>
+    </div>
+
+    <script>
+        class ChaveGame {
+            constructor() {
+                this.words = [
+                    'DADOS', 'LIDER', 'VISAO', 'METAS', 'VALOR',
+                    'GRUPO', 'FORMA', 'PONTO', 'JUNTO', 'IDEIA',
+                    'TOQUE', 'FLUXO', 'REAIS', 'FOCOU', 'LINHA',
+                    'CAÇAR'
+                ];
+                this.targetWord = this.words[Math.floor(Math.random() * this.words.length)];
+                this.currentRow = 0;
+                this.currentCol = 0;
+                this.gameOver = false;
+                this.maxAttempts = 6;
+                this.currentGuess = ['', '', '', '', ''];
+                this.letterStates = {}; // Para rastrear o estado das letras no teclado
+                
+                this.initializeBoard();
+                this.bindEvents();
+                this.showInstructionsOnStart();
+                this.mobileInput = document.getElementById('mobileInput');
+                this.mobileInput.addEventListener('input', (e) => {
+                    const val = e.target.value.toUpperCase();
+                    if (/^[A-Z]$/.test(val)) {
+                        this.addLetter(val);
+                    }
+                    e.target.value = '';
+                });
+            }
+
+            showInstructionsOnStart() {
+                // Mostra as instruções automaticamente no início
+                const modal = document.getElementById('instructionsModal');
+                modal.classList.add('show');
+            }
+
+            initializeBoard() {
+                const board = document.getElementById('gameBoard');
+                board.innerHTML = '';
+                
+                for (let i = 0; i < this.maxAttempts; i++) {
+                    const row = document.createElement('div');
+                    row.className = 'word-row';
+                    row.id = `row-${i}`;
+                    if (i === this.currentRow) {
+                        row.classList.add('active');
+                    } else if (i > this.currentRow) {
+                        row.classList.add('locked');
+                    }
+                    
+                    for (let j = 0; j < 5; j++) {
+                        const box = document.createElement('div');
+                        box.className = 'letter-box';
+                        box.id = `box-${i}-${j}`;
+                        box.addEventListener('click', () => this.focusBox(i, j));
+                        row.appendChild(box);
+                    }
+                    
+                    board.appendChild(row);
+                }
+                
+                this.updateActiveBox();
+            }
+
+            focusBox(row, col) {
+                if (row !== this.currentRow || this.gameOver) return;
+                
+                this.currentCol = col;
+                this.updateActiveBox();
+                // Foca o input invisível para abrir o teclado do celular
+                if (this.mobileInput) {
+                    this.mobileInput.value = '';
+                    this.mobileInput.focus();
+                }
+            }
+
+            updateActiveBox() {
+                // Remove active/locked de todas as linhas
+                document.querySelectorAll('.word-row').forEach(row => {
+                    row.classList.remove('active', 'locked');
+                });
+                // Adiciona active na linha atual, locked nas próximas
+                for (let i = 0; i < this.maxAttempts; i++) {
+                    const row = document.getElementById(`row-${i}`);
+                    if (i === this.currentRow && !this.gameOver) {
+                        row.classList.add('active');
+                    } else if (i > this.currentRow) {
+                        row.classList.add('locked');
+                    }
+                }
+                // Remove active de todas as caixas
+                document.querySelectorAll('.letter-box').forEach(box => {
+                    box.classList.remove('active');
+                });
+                // Adiciona active na caixa atual se o jogo não acabou
+                if (this.currentRow < this.maxAttempts && !this.gameOver) {
+                    const activeBox = document.getElementById(`box-${this.currentRow}-${this.currentCol}`);
+                    if (activeBox && !activeBox.classList.contains('correct', 'present', 'absent')) {
+                        activeBox.classList.add('active');
+                    }
+                }
+            }
+
+            bindEvents() {
+                const restartBtn = document.getElementById('restartBtn');
+                const enterKey = document.getElementById('enterKey');
+                const backspaceKey = document.getElementById('backspaceKey');
+                const helpButton = document.getElementById('infoBtn'); // Changed from 'helpButton' to 'infoBtn'
+                const closeModal = document.getElementById('closeModal');
+                const modal = document.getElementById('instructionsModal');
+
+                // Eventos do modal
+                helpButton.addEventListener('click', () => {
+                    modal.classList.add('show');
+                });
+
+                closeModal.addEventListener('click', () => {
+                    modal.classList.remove('show');
+                });
+
+                // Fechar modal clicando fora dele
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('show');
+                    }
+                });
+
+                // Eventos do teclado virtual
+                document.querySelectorAll('.key.letter').forEach(key => {
+                    key.addEventListener('click', () => {
+                        const letter = key.dataset.key;
+                        this.addLetter(letter);
+                    });
+                });
+
+                enterKey.addEventListener('click', () => {
+                    this.submitGuess();
+                });
+
+                backspaceKey.addEventListener('click', () => {
+                    this.removeLetter();
+                });
+
+                // Eventos do teclado físico - CORRIGIDO
+                document.addEventListener('keydown', (e) => {
+                    if (this.gameOver) return;
+
+                    // Permitir atalhos do navegador (Ctrl, Alt, Meta, etc)
+                    if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+                    const key = e.key.toUpperCase();
+
+                    // Apenas processa teclas válidas
+                    if (key >= 'A' && key <= 'Z' && key.length === 1) {
+                        e.preventDefault();
+                        this.addLetter(key);
+                    } else if (key === 'ENTER') {
+                        e.preventDefault();
+                        this.submitGuess();
+                    } else if (key === 'BACKSPACE') {
+                        e.preventDefault();
+                        this.removeLetter();
+                    } else if (key === 'ARROWLEFT') {
+                        e.preventDefault();
+                        this.moveCursor(-1);
+                    } else if (key === 'ARROWRIGHT') {
+                        e.preventDefault();
+                        this.moveCursor(1);
+                    }
+                    // Ignora todas as outras teclas (shift, ctrl, etc.)
+                });
+
+                restartBtn.addEventListener('click', () => {
+                    this.restart();
+                });
+            }
+
+            addLetter(letter) {
+                if (this.gameOver || this.currentRow >= this.maxAttempts) return;
+
+                this.currentGuess[this.currentCol] = letter;
+
+                const box = document.getElementById(`box-${this.currentRow}-${this.currentCol}`);
+                if (box) {
+                    box.textContent = letter;
+                    box.classList.add('filled');
+                }
+
+                if (this.currentCol < 4) this.currentCol++;
+                this.updateActiveBox();
+            }
+
+            removeLetter() {
+    if (this.gameOver || this.currentRow >= this.maxAttempts) return;
+
+    // Apaga a letra da posição atual
+    this.currentGuess[this.currentCol] = '';
+
+    const box = document.getElementById(`box-${this.currentRow}-${this.currentCol}`);
+    if (box) {
+        box.textContent = '';
+        box.classList.remove('filled');
+    }
+
+    // NÃO MOVE o cursor automaticamente
+    this.updateActiveBox();
+}
+
+
+            submitGuess() {
+                const isComplete = this.currentGuess.every(l => l && l.trim() !== '');
+                if (!isComplete) {
+                    this.showMessage('A palavra deve ter exatamente 5 letras!', 'error');
+                    return;
+                }
+
+                const guess = this.currentGuess.join('').toUpperCase();
+                const guessNorm = normalizeCcedil(guess);
+                const targetNorm = normalizeCcedil(this.targetWord);
+
+                if (!this.isValidWord(guess)) {
+                    this.showMessage('Digite uma palavra válida!', 'error');
+                    return;
+                }
+
+                this.processGuess(guess, guessNorm, targetNorm);
+            }
+
+            isValidWord(word) {
+                return /^[A-ZÁÀÂÃÉÊÍÓÔÕÚÇ]{5}$/.test(word);
+            }
+
+            processGuess(guess, guessNorm, targetNorm) {
+                const row = document.getElementById(`row-${this.currentRow}`);
+                const boxes = row.querySelectorAll('.letter-box');
+
+                const targetLetters = targetNorm.split('');
+                const guessLetters = guessNorm.split('');
+                const results = new Array(5).fill('absent');
+
+                // Primeira passada: marca as letras corretas na posição certa
+                for (let i = 0; i < 5; i++) {
+                    if (guessLetters[i] === targetLetters[i]) {
+                        results[i] = 'correct';
+                        targetLetters[i] = null;
+                        guessLetters[i] = null;
+                    }
+                }
+
+                // Segunda passada: marca as letras corretas na posição errada
+                for (let i = 0; i < 5; i++) {
+                    if (guessLetters[i] !== null) {
+                        const targetIndex = targetLetters.indexOf(guessLetters[i]);
+                        if (targetIndex !== -1) {
+                            results[i] = 'present';
+                            targetLetters[targetIndex] = null;
+                        }
+                    }
+                }
+
+                // Aplica os resultados visualmente e atualiza o estado das letras
+                const originalGuess = guess.split('');
+                for (let i = 0; i < 5; i++) {
+                    const box = boxes[i];
+                    let letter = originalGuess[i];
+                    const result = results[i];
+
+                    // Se acertou a posição e a letra correta for Ç, mostra Ç
+                    if (result === 'correct' && this.targetWord[i] === 'Ç') {
+                        letter = 'Ç';
+                    }
+                    box.textContent = letter;
+                    box.classList.remove('filled', 'active');
+                    box.classList.add(result);
+
+                    // Atualiza o estado da letra no teclado
+                    this.updateKeyboardKey(letter, result);
+                }
+
+                this.currentRow++;
+                this.currentCol = 0;
+                this.currentGuess = ['', '', '', '', ''];
+                
+                // Verifica condições de fim de jogo
+                if (guessNorm === targetNorm) {
+                    // Corrige exibição para mostrar Ç se necessário
+                    const palavraCorrigida = restoreCcedil(guessNorm, this.targetWord);
+                    this.endGame(true, palavraCorrigida);
+                } else if (this.currentRow >= this.maxAttempts) {
+                    this.endGame(false);
+                } else {
+                    this.updateActiveBox();
+                }
+            }
+
+            updateKeyboardKey(letter, result) {
+                const keyElement = document.querySelector(`[data-key="${letter}"]`);
+                if (!keyElement) return;
+                
+                const currentState = this.letterStates[letter];
+                
+                // Prioridade: correct > present > absent
+                if (result === 'correct' || (!currentState && result === 'present') || (!currentState && result === 'absent')) {
+                    this.letterStates[letter] = result;
+                    keyElement.classList.remove('correct', 'present', 'absent');
+                    keyElement.classList.add(result);
+                }
+            }
+
+            endGame(won, palavraCorrigida) {
+                this.gameOver = true;
+                const gameOverDiv = document.getElementById('gameOver');
+                gameOverDiv.style.display = 'block';
+
+                if (won) {
+                    this.showMessage('🔓 CHAVE DESBLOQUEADA! Parabéns! Palavra: ' + (palavraCorrigida || this.targetWord), 'success');
+                } else {
+                    this.showMessage(`❌ Tente novamente amanhã. A palavra era: ${this.targetWord}`, 'defeat');
+                }
+            }
+
+            showMessage(text, type) {
+                const messageDiv = document.getElementById('message');
+                messageDiv.textContent = text;
+                messageDiv.className = `message ${type}`;
+                
+                setTimeout(() => {
+                    if (type === 'error') {
+                        messageDiv.textContent = '';
+                        messageDiv.className = 'message';
+                    }
+                }, 3000);
+            }
+
+            restart() {
+                this.targetWord = this.words[Math.floor(Math.random() * this.words.length)];
+                this.currentRow = 0;
+                this.currentCol = 0;
+                this.gameOver = false;
+                this.currentGuess = ['', '', '', '', ''];
+                this.letterStates = {};
+                
+                const gameOverDiv = document.getElementById('gameOver');
+                const messageDiv = document.getElementById('message');
+
+                gameOverDiv.style.display = 'none';
+                messageDiv.textContent = '';
+                messageDiv.className = 'message';
+
+                // Reset keyboard
+                document.querySelectorAll('.key').forEach(key => {
+                    key.classList.remove('correct', 'present', 'absent');
+                });
+
+                this.initializeBoard();
+                this.updateActiveBox(); // Ensure active/locked classes are correct after restart
+                this.showInstructionsOnStart();
+            }
+
+            // Adicionar método para mover o cursor
+            moveCursor(direction) {
+                if (this.gameOver || this.currentRow >= this.maxAttempts) return;
+                
+                const newCol = this.currentCol + direction;
+                if (newCol >= 0 && newCol <= 5) {
+                    this.currentCol = newCol;
+                    this.updateActiveBox();
+                }
+            }
+        }
+
+        // Função utilitária para normalizar C/Ç
+        function normalizeCcedil(str) {
+            return str.replace(/Ç/g, 'C');
+        }
+        // Função para corrigir exibição de Ç
+        function restoreCcedil(input, target) {
+            let result = '';
+            for (let i = 0; i < input.length; i++) {
+                if (target[i] === 'Ç') {
+                    result += 'Ç';
+                } else {
+                    result += input[i];
+                }
+            }
+            return result;
+        }
+
+        // Inicializa o jogo quando a página carrega
+        document.addEventListener('DOMContentLoaded', () => {
+            new ChaveGame();
+        });
+
+        // Simulação de login/logout para usabilidade
+        let loggedIn = false;
+        const loginBtn = document.getElementById('loginBtn');
+        const loginText = document.getElementById('loginText');
+        loginBtn.addEventListener('click', () => {
+            loggedIn = !loggedIn;
+            if (loggedIn) {
+                loginText.textContent = 'João da Silva';
+            } else {
+                loginText.textContent = 'faça login para jogar';
+            }
+        });
+        // Botão de estatísticas (apenas usabilidade)
+        document.getElementById('statsBtn').addEventListener('click', () => {
+            alert('Funcionalidade de ranking em breve!');
+        });
+        // Botão de informações (já existe funcionalidade no helpButton)
+        document.getElementById('infoBtn').addEventListener('click', () => {
+            document.getElementById('instructionsModal').classList.add('show');
+        });
+
+        // Corrigir fechamento do modal de instruções
+        function closeInstructionsModal() {
+            document.getElementById('instructionsModal').classList.remove('show');
+        }
+        document.getElementById('closeModal').onclick = closeInstructionsModal;
+        document.getElementById('instructionsModal').onclick = function(e) {
+            if (e.target === this) closeInstructionsModal();
+        };
+    </script>
+</body>
+</html>
+
+
+            
