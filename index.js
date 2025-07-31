@@ -5,7 +5,7 @@ const app = require('express')();
 // Mostrar a porta que o servidor está rodando
 app.listen(3000, () => {console.log('Servidor rodando na porta 3000')});
 
-// Rota pa template.html
+// Rota para template.html
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/template.html');
 });
@@ -29,3 +29,7 @@ app.get('/objeto', (req, res) => {
 });
 
 
+// Rota para testar script.js
+app.get('/script', function(req, res) {
+    res.sendFile(__dirname + '/script.js');
+});
