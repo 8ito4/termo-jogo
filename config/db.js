@@ -1,11 +1,12 @@
 const { Pool } = require('pg');
+require('dotenv').config();
 
 const pool = new Pool({
-    user: 'postgres',
-    host: 'db.dorpvwudsdaigqviukdo.supabase.co',
-    database: 'postgres',
-    password:'bee@1100229933',
-    port: 5432,
+    user: process.env.DATABASE_USER,
+    host: process.env.DATABASE_HOST,
+    database: process.env.DATABASE_NAME,
+    password: process.env.DATABASE_PASS,
+    port: process.env.DATABASE_PORT,
 });
 
 MediaSourceHandle.exports = pool;
