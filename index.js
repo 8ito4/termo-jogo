@@ -33,3 +33,14 @@ app.get('/objeto', (req, res) => {
 app.get('/script', function(req, res) {
     res.sendFile(__dirname + '/script.js');
 });
+
+//rota teste https://www.youtube.com/watch?v=TITvGENBBkY
+app.get("/teste", function(req, res){
+    var myname = req.query["myname"];
+    
+    if(myname){
+        res.send(myname);
+    }else{
+        res.send("Nada aqui, amigo");
+    }
+});
