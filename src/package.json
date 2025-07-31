@@ -1,0 +1,11 @@
+{
+  "name": "imersao2025",
+  "version": "1.0.0",
+  "description": "jogo chave",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "beedelivery_xaxa",
+  "license": "MIT"
+}
